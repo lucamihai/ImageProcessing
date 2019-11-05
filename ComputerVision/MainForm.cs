@@ -122,6 +122,21 @@ namespace ComputerVision
             UpdateWorkImage();
         }
 
+        private void buttonResetSecondImage_Click(object sender, EventArgs e)
+        {
+            image = new Bitmap(initialImage);
+            workImage = new FastImage(image);
+
+            UpdateWorkImage();
+        }
+
+        private void buttonMarkov_Click(object sender, EventArgs e)
+        {
+            MarkovFilter.CBPF(workImage, initialWorkImage, 3, 4, 500);
+
+            UpdateWorkImage();
+        }
+
         //private int GetIntensity(byte min, byte max, int a, int b)
         //{
 

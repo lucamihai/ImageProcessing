@@ -32,19 +32,21 @@ namespace ComputerVision
             this.panelDestination = new System.Windows.Forms.Panel();
             this.buttonLoad = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.buttonLowPassFilter = new System.Windows.Forms.Button();
             this.buttonEqualization = new System.Windows.Forms.Button();
             this.buttonNegativare = new System.Windows.Forms.Button();
             this.buttonGrayscale = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.trackBarDelta = new System.Windows.Forms.TrackBar();
             this.trackBarIntensity = new System.Windows.Forms.TrackBar();
-            this.buttonLowPassFilter = new System.Windows.Forms.Button();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
+            this.buttonResetSecondImage = new System.Windows.Forms.Button();
+            this.buttonMarkov = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarDelta)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarIntensity)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // panelSource
@@ -80,6 +82,7 @@ namespace ComputerVision
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.buttonMarkov);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.numericUpDown1);
             this.panel1.Controls.Add(this.buttonLowPassFilter);
@@ -90,6 +93,43 @@ namespace ComputerVision
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(320, 190);
             this.panel1.TabIndex = 3;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(90, 70);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(13, 13);
+            this.label1.TabIndex = 18;
+            this.label1.Text = "n";
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(109, 68);
+            this.numericUpDown1.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(47, 20);
+            this.numericUpDown1.TabIndex = 17;
+            this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // buttonLowPassFilter
+            // 
+            this.buttonLowPassFilter.Location = new System.Drawing.Point(7, 68);
+            this.buttonLowPassFilter.Name = "buttonLowPassFilter";
+            this.buttonLowPassFilter.Size = new System.Drawing.Size(75, 23);
+            this.buttonLowPassFilter.TabIndex = 16;
+            this.buttonLowPassFilter.Text = "Low pass filter";
+            this.buttonLowPassFilter.UseVisualStyleBackColor = true;
+            this.buttonLowPassFilter.Click += new System.EventHandler(this.buttonLowPassFilter_Click);
             // 
             // buttonEqualization
             // 
@@ -141,48 +181,32 @@ namespace ComputerVision
             this.trackBarIntensity.TabIndex = 5;
             this.trackBarIntensity.ValueChanged += new System.EventHandler(this.TrackBarIntensity_ValueChanged);
             // 
-            // buttonLowPassFilter
+            // buttonResetSecondImage
             // 
-            this.buttonLowPassFilter.Location = new System.Drawing.Point(7, 68);
-            this.buttonLowPassFilter.Name = "buttonLowPassFilter";
-            this.buttonLowPassFilter.Size = new System.Drawing.Size(75, 23);
-            this.buttonLowPassFilter.TabIndex = 16;
-            this.buttonLowPassFilter.Text = "Low pass filter";
-            this.buttonLowPassFilter.UseVisualStyleBackColor = true;
-            this.buttonLowPassFilter.Click += new System.EventHandler(this.buttonLowPassFilter_Click);
+            this.buttonResetSecondImage.Location = new System.Drawing.Point(216, 271);
+            this.buttonResetSecondImage.Name = "buttonResetSecondImage";
+            this.buttonResetSecondImage.Size = new System.Drawing.Size(116, 23);
+            this.buttonResetSecondImage.TabIndex = 6;
+            this.buttonResetSecondImage.Text = "Reset second image";
+            this.buttonResetSecondImage.UseVisualStyleBackColor = true;
+            this.buttonResetSecondImage.Click += new System.EventHandler(this.buttonResetSecondImage_Click);
             // 
-            // numericUpDown1
+            // buttonMarkov
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(109, 68);
-            this.numericUpDown1.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(47, 20);
-            this.numericUpDown1.TabIndex = 17;
-            this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.numericUpDown1.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(90, 70);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(13, 13);
-            this.label1.TabIndex = 18;
-            this.label1.Text = "n";
+            this.buttonMarkov.Location = new System.Drawing.Point(7, 39);
+            this.buttonMarkov.Name = "buttonMarkov";
+            this.buttonMarkov.Size = new System.Drawing.Size(75, 23);
+            this.buttonMarkov.TabIndex = 19;
+            this.buttonMarkov.Text = "Markov filter";
+            this.buttonMarkov.UseVisualStyleBackColor = true;
+            this.buttonMarkov.Click += new System.EventHandler(this.buttonMarkov_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(680, 473);
+            this.Controls.Add(this.buttonResetSecondImage);
             this.Controls.Add(this.trackBarIntensity);
             this.Controls.Add(this.trackBarDelta);
             this.Controls.Add(this.panel1);
@@ -193,9 +217,9 @@ namespace ComputerVision
             this.Text = "Form1";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarDelta)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarIntensity)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -216,6 +240,8 @@ namespace ComputerVision
         private System.Windows.Forms.Button buttonLowPassFilter;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.Button buttonResetSecondImage;
+        private System.Windows.Forms.Button buttonMarkov;
     }
 }
 

@@ -61,13 +61,12 @@ namespace ComputerVision.Logic
             var minB = originalFastImage.BlueMinimumValue;
             var maxB = originalFastImage.BlueMaximumValue;
 
-            var delta = intensity;
-            var redA = GetA(minR, delta);
-            var redB = GetB(maxR, delta);
-            var greenA = GetA(minG, delta);
-            var greenB = GetB(maxG, delta);
-            var blueA = GetA(minB, delta);
-            var blueB = GetB(maxB, delta);
+            var redA = GetA(minR, intensity);
+            var redB = GetB(maxR, intensity);
+            var greenA = GetA(minG, intensity);
+            var greenB = GetB(maxG, intensity);
+            var blueA = GetA(minB, intensity);
+            var blueB = GetB(maxB, intensity);
 
             for (var i = 0; i < originalFastImage.Width; i++)
             {
@@ -186,16 +185,16 @@ namespace ComputerVision.Logic
 
                     for (int i = row - 1; i <= row + 1; i++)
                     {
-                        for (int j = column - 1; j < column + 1; j++)
+                        for (int j = column - 1; j <= column + 1; j++)
                         {
                             var pixel = originalFastImage.GetPixel(i, j);
-                            sumRed += pixel.R * matrix[row - i + 1, column - j + 1];
-                            sumGreen += pixel.G;
-                            sumBlue += pixel.B;
+                            sumRed += pixel.R * matrix[i - row + 1, j - column + 1];
+                            sumGreen += pixel.G * matrix[i - row + 1, j - column + 1];
+                            sumBlue += pixel.B * matrix[i - row + 1, j - column + 1];
                         }
                     }
 
-                    var divide = ((n + 2) * (n + 2));
+                    var divide = (n + 2) * (n + 2);
                     var newRed = sumRed / divide;
                     var newGreen = sumGreen / divide;
                     var newBlue = sumBlue / divide;
@@ -211,21 +210,12 @@ namespace ComputerVision.Logic
 
         private static int[,] GetLowPassFilterMatrix(int n)
         {
-            var matrix = new int[3, 3];
-
-            matrix[0, 0] = 1;
-            matrix[0, 2] = 1;
-            matrix[2, 0] = 1;
-            matrix[2, 2] = 1;
-
-            matrix[0, 1] = n;
-            matrix[1, 0] = n;
-            matrix[1, 2] = n;
-            matrix[2, 1] = n;
-
-            matrix[1, 1] = n * n;
-
-            return matrix;
+            return new int[,]
+            {
+                { 1, n, 1 },
+                { n, n * n, n },
+                { 1, n, 1 }
+            };
         }
     }
 }
