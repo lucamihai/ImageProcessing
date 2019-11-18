@@ -47,6 +47,7 @@ namespace ComputerVision
             this.buttonResetSecondImage = new System.Windows.Forms.Button();
             this.buttonKirsch = new System.Windows.Forms.Button();
             this.buttonLaplace = new System.Windows.Forms.Button();
+            this.buttonRoberts = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarDelta)).BeginInit();
@@ -86,6 +87,7 @@ namespace ComputerVision
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.buttonRoberts);
             this.panel1.Controls.Add(this.buttonLaplace);
             this.panel1.Controls.Add(this.buttonKirsch);
             this.panel1.Controls.Add(this.buttonUnsharp);
@@ -249,6 +251,16 @@ namespace ComputerVision
             this.buttonLaplace.UseVisualStyleBackColor = true;
             this.buttonLaplace.Click += new System.EventHandler(this.buttonLaplace_Click);
             // 
+            // buttonRoberts
+            // 
+            this.buttonRoberts.Location = new System.Drawing.Point(207, 10);
+            this.buttonRoberts.Name = "buttonRoberts";
+            this.buttonRoberts.Size = new System.Drawing.Size(75, 23);
+            this.buttonRoberts.TabIndex = 24;
+            this.buttonRoberts.Text = "Roberts";
+            this.buttonRoberts.UseVisualStyleBackColor = true;
+            this.buttonRoberts.Click += new System.EventHandler(this.buttonRoberts_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -294,6 +306,7 @@ namespace ComputerVision
         private System.Windows.Forms.Button buttonUnsharp;
         private System.Windows.Forms.Button buttonKirsch;
         private System.Windows.Forms.Button buttonLaplace;
+        private System.Windows.Forms.Button buttonRoberts;
     }
 }
 

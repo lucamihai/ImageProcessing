@@ -466,6 +466,49 @@ namespace ComputerVision.Logic
             originalFastImage.Unlock();
         }
 
+        public static void Roberts(FastImage fastImage, FastImage originalFastImage)
+        {
+            var P = new[,]
+            {
+                {-1, 0},
+                {0, 1},
+            };
+
+            var Q = new[,]
+            {
+                {0, 1},
+                {-1, 0},
+            };
+
+            fastImage.Lock();
+            originalFastImage.Lock();
+
+            const int k = 7;
+
+            for (int row = 1; row < originalFastImage.Width - 2; row++)
+            {
+                for (int column = 1; column < originalFastImage.Height - 2; column++)
+                {
+                    GetConvolutionSumsForRobert(originalFastImage, row, column, P, out var sumRedP, out var sumGreenP, out var sumBlueP);
+                    GetConvolutionSumsForRobert(originalFastImage, row, column, Q, out var sumRedQ, out var sumGreenQ, out var sumBlueQ);
+
+                    int newRed = k * (int)Math.Sqrt(Math.Pow(sumRedP, 2) + Math.Pow(sumRedQ, 2));
+                    int newGreen = k * (int)Math.Sqrt(Math.Pow(sumGreenP, 2) + Math.Pow(sumGreenQ, 2));
+                    int newBlue = k * (int)Math.Sqrt(Math.Pow(sumBlueP, 2) + Math.Pow(sumBlueQ, 2));
+
+                    newRed = Normalizare(newRed, 0, 255);
+                    newGreen = Normalizare(newGreen, 0, 255);
+                    newBlue = Normalizare(newBlue, 0, 255);
+
+                    var newColor = Color.FromArgb(newRed, newGreen, newBlue);
+                    fastImage.SetPixel(row, column, newColor);
+                }
+            }
+
+            fastImage.Unlock();
+            originalFastImage.Unlock();
+        }
+
         private static void GetConvolutionSums(FastImage fastImage, int x, int y, int[,] matrix, out int sumRed, out int sumGreen, out int sumBlue)
         {
             sumRed = 0;
@@ -483,6 +526,25 @@ namespace ComputerVision.Logic
                 }
             }
         }
+
+        private static void GetConvolutionSumsForRobert(FastImage fastImage, int x, int y, int[,] matrix, out int sumRed, out int sumGreen, out int sumBlue)
+        {
+            sumRed = 0;
+            sumGreen = 0;
+            sumBlue = 0;
+
+            for (int i = x; i <= x + 1; i++)
+            {
+                for (int j = y; j <= y + 1; j++)
+                {
+                    var pixel = fastImage.GetPixel(i, j);
+                    sumRed += pixel.R * matrix[i - x, j - y];
+                    sumGreen += pixel.G * matrix[i - x, j - y];
+                    sumBlue += pixel.B * matrix[i - x, j - y];
+                }
+            }
+        }
+
 
         private static int Normalizare(int value, int min, int max)
         {

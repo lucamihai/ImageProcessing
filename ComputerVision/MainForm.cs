@@ -164,5 +164,12 @@ namespace ComputerVision
 
             UpdateWorkImage();
         }
+
+        private void buttonRoberts_Click(object sender, EventArgs e)
+        {
+            Methods.Roberts(workImage, initialWorkImage);
+
+            UpdateWorkImage();
+        }
     }
 }
