@@ -137,9 +137,25 @@ namespace ComputerVision
             UpdateWorkImage();
         }
 
-        //private int GetIntensity(byte min, byte max, int a, int b)
-        //{
+        private void buttonHighPass_Click(object sender, EventArgs e)
+        {
+            Methods.HighPassFilter(workImage, initialWorkImage);
 
-        //}
+            UpdateWorkImage();
+        }
+
+        private void buttonUnsharp_Click(object sender, EventArgs e)
+        {
+            Methods.Unsharp(workImage, initialWorkImage);
+
+            UpdateWorkImage();
+        }
+
+        private void buttonKirsch_Click(object sender, EventArgs e)
+        {
+            Methods.Kirsch(workImage, initialWorkImage);
+
+            UpdateWorkImage();
+        }
     }
 }

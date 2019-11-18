@@ -1,5 +1,8 @@
 ﻿using System;
+using System.CodeDom;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using ComputerVision.Entities;
 
 namespace ComputerVision.Logic
@@ -206,6 +209,247 @@ namespace ComputerVision.Logic
 
             fastImage.Unlock();
             originalFastImage.Unlock();
+        }
+
+        public static void HighPassFilter(FastImage fastImage, FastImage originalFastImage)
+        {
+            int[,] H =
+            {
+                { 0, -1, 0 },
+                { -1, 5, -1 },
+                { 0, -1, 0 }
+            };
+
+            fastImage.Lock();
+            originalFastImage.Lock();
+            for (int i = 1; i <= fastImage.Width - 2; i++)
+            {
+                for (int j = 1; j <= fastImage.Height - 2; j++)
+                {
+                    var sumaR = 0;
+                    var sumaG = 0;
+                    var sumaB = 0;
+                    Color color;
+
+                    for (int row = i - 1; row <= i + 1; row++)
+                    {
+                        for (int col = j - 1; col <= j + 1; col++)
+                        {
+                            color = originalFastImage.GetPixel(row, col);
+                            int R = color.R;
+                            int G = color.G;
+                            int B = color.B;
+
+                            sumaR += R * H[row - i + 1, col - j + 1];
+                            sumaG += G * H[row - i + 1, col - j + 1];
+                            sumaB += B * H[row - i + 1, col - j + 1];
+                        }
+                    }
+                    if (sumaR > 255)
+                    {
+                        sumaR = 255;
+                    }
+                    if (sumaR < 0)
+                    {
+                        sumaR = 0;
+                    }
+                    if (sumaG > 255)
+                    {
+                        sumaG = 255;
+                    }
+                    if (sumaG < 0)
+                    {
+                        sumaG = 0;
+                    }
+                    if (sumaB > 255)
+                    {
+                        sumaB = 255;
+                    }
+                    if (sumaB < 0)
+                    {
+                        sumaB = 0;
+                    }
+
+                    color = Color.FromArgb(sumaR, sumaG, sumaB);
+                    fastImage.SetPixel(i, j, color);
+                }
+            }
+
+            fastImage.Unlock();
+            originalFastImage.Unlock();
+        }
+
+        public static void Unsharp(FastImage fastImage, FastImage originalFastImage)
+        {
+            int[,] H = { { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 } };
+            double c = 0.6;
+
+            fastImage.Lock();
+            originalFastImage.Lock();
+            for (int i = 1; i < fastImage.Width - 2; i++)
+            {
+                for (int j = 1; j < fastImage.Height - 2; j++)
+                {
+                    double sumR = 0;
+                    double sumG = 0;
+                    double sumB = 0;
+                    double SumaR0 = 0;
+                    double SumaG0 = 0;
+                    double SumaB0 = 0;
+                    double R = 0;
+                    double G = 0;
+                    double B = 0;
+                    Color color;
+                    for (int row = i - 1; row <= i + 1; row++)
+                    {
+                        for (int col = j - 1; col <= j + 1; col++)
+                        {
+                            color = originalFastImage.GetPixel(row, col);
+                            R = color.R;
+                            G = color.G;
+                            B = color.B;
+
+                            sumR = sumR + R * H[row - i + 1, col - j + 1];
+                            sumG = sumG + G * H[row - i + 1, col - j + 1];
+                            sumB = sumB + B * H[row - i + 1, col - j + 1];
+                        }
+                    }
+                    sumR /= (1 + 2) * (1 + 2);
+                    sumG /= (1 + 2) * (1 + 2);
+                    sumB /= (1 + 2) * (1 + 2);
+
+                    SumaR0 = (c / (1.2 - 1.0)) * R - ((1.0 - c) / (1.2 - 1.0)) * sumR;
+                    SumaG0 = (c / (1.2 - 1.0)) * G - ((1.0 - c) / (1.2 - 1.0)) * sumG;
+                    SumaB0 = (c / (1.2 - 1.0)) * B - ((1.0 - c) / (1.2 - 1.0)) * sumB;
+
+                    if (SumaR0 > 255)
+                    {
+                        SumaR0 = 255;
+                    }
+                    if (SumaR0 < 0)
+                    {
+                        SumaR0 = 0;
+                    }
+                    if (SumaG0 > 255)
+                    {
+                        SumaG0 = 255;
+                    }
+                    if (SumaG0 < 0)
+                    {
+                        SumaG0 = 0;
+                    }
+                    if (SumaB0 > 255)
+                    {
+                        SumaB0 = 255;
+                    }
+                    if (SumaB0 < 0)
+                    {
+                        SumaB0 = 0;
+                    }
+
+                    color = Color.FromArgb((int)SumaR0, (int)SumaG0, (int)SumaB0);
+                    fastImage.SetPixel(i, j, color);
+                }
+            }
+
+            fastImage.Unlock();
+            originalFastImage.Unlock();
+        }
+
+        public static void Kirsch(FastImage fastImage, FastImage originalFastImage)
+        {
+            var H1 = new[,]
+            {
+                {-1, 0, 1},
+                {-1, 0, 1},
+                {-1, 0, 1}
+            };
+
+            var H2 = new[,]
+            {
+                {1, 1, 1},
+                {0, 0, 0},
+                {-1, -1, -1}
+            };
+
+            var H3 = new[,]
+            {
+                {0, 1, 1},
+                {-1, 0, 1},
+                {-1, -1, 0}
+            };
+
+            var H4 = new[,]
+            {
+                {1, 1, 0},
+                {1, 0, -1},
+                {0, -1, -1}
+            };
+
+            fastImage.Lock();
+            originalFastImage.Lock();
+
+            for (int row = 1; row < originalFastImage.Width - 2; row++)
+            {
+                for (int column = 1; column < originalFastImage.Height - 2; column++)
+                {
+                    GetKirschSum(originalFastImage, row, column, H1, out var sumRedH1, out var sumGreenH1, out var sumBlueH1);
+                    GetKirschSum(originalFastImage, row, column, H2, out var sumRedH2, out var sumGreenH2, out var sumBlueH2);
+                    GetKirschSum(originalFastImage, row, column, H3, out var sumRedH3, out var sumGreenH3, out var sumBlueH3);
+                    GetKirschSum(originalFastImage, row, column, H4, out var sumRedH4, out var sumGreenH4, out var sumBlueH4);
+
+                    var sumsRed = new List<int> {sumRedH1, sumRedH2, sumRedH3, sumRedH4};
+                    var sumsGreen = new List<int> {sumGreenH1, sumGreenH2, sumGreenH3, sumGreenH4};
+                    var sumsBlue = new List<int> {sumBlueH1, sumBlueH2, sumBlueH3, sumBlueH4};
+
+                    var maxRed = sumsRed.Max();
+                    var maxGreen = sumsGreen.Max();
+                    var maxBlue = sumsBlue.Max();
+
+                    maxRed = Normalizare(maxRed, 0, 255);
+                    maxGreen = Normalizare(maxGreen, 0, 255);
+                    maxBlue = Normalizare(maxBlue, 0, 255);
+
+                    var newColor = Color.FromArgb(maxRed, maxGreen, maxBlue);
+                    fastImage.SetPixel(row, column, newColor);
+                }
+            }
+
+            fastImage.Unlock();
+            originalFastImage.Unlock();
+        }
+
+        private static void GetKirschSum(FastImage fastImage, int x, int y, int[,] matrix, out int sumRed, out int sumGreen, out int sumBlue)
+        {
+            sumRed = 0;
+            sumGreen = 0;
+            sumBlue = 0;
+
+            for (int i = x - 1; i <= x + 1; i++)
+            {
+                for (int j = y - 1; j <= y + 1; j++)
+                {
+                    var pixel = fastImage.GetPixel(i, j);
+                    sumRed += pixel.R * matrix[i - x + 1, j - y + 1];
+                    sumGreen += pixel.G * matrix[i - x + 1, j - y + 1];
+                    sumBlue += pixel.B * matrix[i - x + 1, j - y + 1];
+                }
+            }
+        }
+
+        private static int Normalizare(int value, int min, int max)
+        {
+            if (value < min)
+            {
+                return min;
+            }
+
+            if (value > max)
+            {
+                return max;
+            }
+
+            return value;
         }
 
         private static int[,] GetLowPassFilterMatrix(int n)

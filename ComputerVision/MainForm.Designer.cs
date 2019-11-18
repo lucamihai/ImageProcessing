@@ -32,6 +32,9 @@ namespace ComputerVision
             this.panelDestination = new System.Windows.Forms.Panel();
             this.buttonLoad = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonUnsharp = new System.Windows.Forms.Button();
+            this.buttonHighPass = new System.Windows.Forms.Button();
+            this.buttonMarkov = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.buttonLowPassFilter = new System.Windows.Forms.Button();
@@ -42,7 +45,7 @@ namespace ComputerVision
             this.trackBarDelta = new System.Windows.Forms.TrackBar();
             this.trackBarIntensity = new System.Windows.Forms.TrackBar();
             this.buttonResetSecondImage = new System.Windows.Forms.Button();
-            this.buttonMarkov = new System.Windows.Forms.Button();
+            this.buttonKirsch = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarDelta)).BeginInit();
@@ -82,6 +85,9 @@ namespace ComputerVision
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.buttonKirsch);
+            this.panel1.Controls.Add(this.buttonUnsharp);
+            this.panel1.Controls.Add(this.buttonHighPass);
             this.panel1.Controls.Add(this.buttonMarkov);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.numericUpDown1);
@@ -93,6 +99,36 @@ namespace ComputerVision
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(320, 190);
             this.panel1.TabIndex = 3;
+            // 
+            // buttonUnsharp
+            // 
+            this.buttonUnsharp.Location = new System.Drawing.Point(7, 10);
+            this.buttonUnsharp.Name = "buttonUnsharp";
+            this.buttonUnsharp.Size = new System.Drawing.Size(75, 23);
+            this.buttonUnsharp.TabIndex = 21;
+            this.buttonUnsharp.Text = "Unsharp4";
+            this.buttonUnsharp.UseVisualStyleBackColor = true;
+            this.buttonUnsharp.Click += new System.EventHandler(this.buttonUnsharp_Click);
+            // 
+            // buttonHighPass
+            // 
+            this.buttonHighPass.Location = new System.Drawing.Point(178, 65);
+            this.buttonHighPass.Name = "buttonHighPass";
+            this.buttonHighPass.Size = new System.Drawing.Size(75, 23);
+            this.buttonHighPass.TabIndex = 20;
+            this.buttonHighPass.Text = "Low pass filter";
+            this.buttonHighPass.UseVisualStyleBackColor = true;
+            this.buttonHighPass.Click += new System.EventHandler(this.buttonHighPass_Click);
+            // 
+            // buttonMarkov
+            // 
+            this.buttonMarkov.Location = new System.Drawing.Point(7, 39);
+            this.buttonMarkov.Name = "buttonMarkov";
+            this.buttonMarkov.Size = new System.Drawing.Size(75, 23);
+            this.buttonMarkov.TabIndex = 19;
+            this.buttonMarkov.Text = "Markov filter";
+            this.buttonMarkov.UseVisualStyleBackColor = true;
+            this.buttonMarkov.Click += new System.EventHandler(this.buttonMarkov_Click);
             // 
             // label1
             // 
@@ -191,15 +227,15 @@ namespace ComputerVision
             this.buttonResetSecondImage.UseVisualStyleBackColor = true;
             this.buttonResetSecondImage.Click += new System.EventHandler(this.buttonResetSecondImage_Click);
             // 
-            // buttonMarkov
+            // buttonKirsch
             // 
-            this.buttonMarkov.Location = new System.Drawing.Point(7, 39);
-            this.buttonMarkov.Name = "buttonMarkov";
-            this.buttonMarkov.Size = new System.Drawing.Size(75, 23);
-            this.buttonMarkov.TabIndex = 19;
-            this.buttonMarkov.Text = "Markov filter";
-            this.buttonMarkov.UseVisualStyleBackColor = true;
-            this.buttonMarkov.Click += new System.EventHandler(this.buttonMarkov_Click);
+            this.buttonKirsch.Location = new System.Drawing.Point(109, 10);
+            this.buttonKirsch.Name = "buttonKirsch";
+            this.buttonKirsch.Size = new System.Drawing.Size(75, 23);
+            this.buttonKirsch.TabIndex = 22;
+            this.buttonKirsch.Text = "Kirsch";
+            this.buttonKirsch.UseVisualStyleBackColor = true;
+            this.buttonKirsch.Click += new System.EventHandler(this.buttonKirsch_Click);
             // 
             // MainForm
             // 
@@ -242,6 +278,9 @@ namespace ComputerVision
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Button buttonResetSecondImage;
         private System.Windows.Forms.Button buttonMarkov;
+        private System.Windows.Forms.Button buttonHighPass;
+        private System.Windows.Forms.Button buttonUnsharp;
+        private System.Windows.Forms.Button buttonKirsch;
     }
 }
 
