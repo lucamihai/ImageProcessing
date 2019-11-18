@@ -157,5 +157,12 @@ namespace ComputerVision
 
             UpdateWorkImage();
         }
+
+        private void buttonLaplace_Click(object sender, EventArgs e)
+        {
+            Methods.Laplace(workImage, initialWorkImage);
+
+            UpdateWorkImage();
+        }
     }
 }

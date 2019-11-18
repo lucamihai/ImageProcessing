@@ -393,10 +393,10 @@ namespace ComputerVision.Logic
             {
                 for (int column = 1; column < originalFastImage.Height - 2; column++)
                 {
-                    GetKirschSum(originalFastImage, row, column, H1, out var sumRedH1, out var sumGreenH1, out var sumBlueH1);
-                    GetKirschSum(originalFastImage, row, column, H2, out var sumRedH2, out var sumGreenH2, out var sumBlueH2);
-                    GetKirschSum(originalFastImage, row, column, H3, out var sumRedH3, out var sumGreenH3, out var sumBlueH3);
-                    GetKirschSum(originalFastImage, row, column, H4, out var sumRedH4, out var sumGreenH4, out var sumBlueH4);
+                    GetConvolutionSums(originalFastImage, row, column, H1, out var sumRedH1, out var sumGreenH1, out var sumBlueH1);
+                    GetConvolutionSums(originalFastImage, row, column, H2, out var sumRedH2, out var sumGreenH2, out var sumBlueH2);
+                    GetConvolutionSums(originalFastImage, row, column, H3, out var sumRedH3, out var sumGreenH3, out var sumBlueH3);
+                    GetConvolutionSums(originalFastImage, row, column, H4, out var sumRedH4, out var sumGreenH4, out var sumBlueH4);
 
                     var sumsRed = new List<int> {sumRedH1, sumRedH2, sumRedH3, sumRedH4};
                     var sumsGreen = new List<int> {sumGreenH1, sumGreenH2, sumGreenH3, sumGreenH4};
@@ -419,7 +419,54 @@ namespace ComputerVision.Logic
             originalFastImage.Unlock();
         }
 
-        private static void GetKirschSum(FastImage fastImage, int x, int y, int[,] matrix, out int sumRed, out int sumGreen, out int sumBlue)
+        public static void Laplace(FastImage fastImage, FastImage originalFastImage)
+        {
+            var H1 = new[,]
+            {
+                {0, 1, 0},
+                {1, -4, 1},
+                {0, 1, 0}
+            };
+
+            var H2 = new[,]
+            {
+                {-1, -1, -1},
+                {-1, 8, -1},
+                {-1, -1, -1}
+            };
+
+            fastImage.Lock();
+            originalFastImage.Lock();
+
+            for (int row = 1; row < originalFastImage.Width - 2; row++)
+            {
+                for (int column = 1; column < originalFastImage.Height - 2; column++)
+                {
+                    GetConvolutionSums(originalFastImage, row, column, H1, out var sumRedH1, out var sumGreenH1, out var sumBlueH1);
+                    GetConvolutionSums(originalFastImage, row, column, H2, out var sumRedH2, out var sumGreenH2, out var sumBlueH2);
+
+                    var sumsRed = new List<int> { sumRedH1, sumRedH2 };
+                    var sumsGreen = new List<int> { sumGreenH1, sumGreenH2 };
+                    var sumsBlue = new List<int> { sumBlueH1, sumBlueH2 };
+
+                    var maxRed = sumsRed.Max();
+                    var maxGreen = sumsGreen.Max();
+                    var maxBlue = sumsBlue.Max();
+
+                    maxRed = Normalizare(maxRed, 0, 255);
+                    maxGreen = Normalizare(maxGreen, 0, 255);
+                    maxBlue = Normalizare(maxBlue, 0, 255);
+
+                    var newColor = Color.FromArgb(maxRed, maxGreen, maxBlue);
+                    fastImage.SetPixel(row, column, newColor);
+                }
+            }
+
+            fastImage.Unlock();
+            originalFastImage.Unlock();
+        }
+
+        private static void GetConvolutionSums(FastImage fastImage, int x, int y, int[,] matrix, out int sumRed, out int sumGreen, out int sumBlue)
         {
             sumRed = 0;
             sumGreen = 0;

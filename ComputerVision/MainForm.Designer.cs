@@ -46,6 +46,7 @@ namespace ComputerVision
             this.trackBarIntensity = new System.Windows.Forms.TrackBar();
             this.buttonResetSecondImage = new System.Windows.Forms.Button();
             this.buttonKirsch = new System.Windows.Forms.Button();
+            this.buttonLaplace = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarDelta)).BeginInit();
@@ -85,6 +86,7 @@ namespace ComputerVision
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.buttonLaplace);
             this.panel1.Controls.Add(this.buttonKirsch);
             this.panel1.Controls.Add(this.buttonUnsharp);
             this.panel1.Controls.Add(this.buttonHighPass);
@@ -237,6 +239,16 @@ namespace ComputerVision
             this.buttonKirsch.UseVisualStyleBackColor = true;
             this.buttonKirsch.Click += new System.EventHandler(this.buttonKirsch_Click);
             // 
+            // buttonLaplace
+            // 
+            this.buttonLaplace.Location = new System.Drawing.Point(109, 36);
+            this.buttonLaplace.Name = "buttonLaplace";
+            this.buttonLaplace.Size = new System.Drawing.Size(75, 23);
+            this.buttonLaplace.TabIndex = 23;
+            this.buttonLaplace.Text = "Laplace";
+            this.buttonLaplace.UseVisualStyleBackColor = true;
+            this.buttonLaplace.Click += new System.EventHandler(this.buttonLaplace_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -281,6 +293,7 @@ namespace ComputerVision
         private System.Windows.Forms.Button buttonHighPass;
         private System.Windows.Forms.Button buttonUnsharp;
         private System.Windows.Forms.Button buttonKirsch;
+        private System.Windows.Forms.Button buttonLaplace;
     }
 }
 
