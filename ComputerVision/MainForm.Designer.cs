@@ -48,6 +48,7 @@ namespace ComputerVision
             this.buttonKirsch = new System.Windows.Forms.Button();
             this.buttonLaplace = new System.Windows.Forms.Button();
             this.buttonRoberts = new System.Windows.Forms.Button();
+            this.buttonPrewitt = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarDelta)).BeginInit();
@@ -87,6 +88,7 @@ namespace ComputerVision
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.buttonPrewitt);
             this.panel1.Controls.Add(this.buttonRoberts);
             this.panel1.Controls.Add(this.buttonLaplace);
             this.panel1.Controls.Add(this.buttonKirsch);
@@ -261,6 +263,16 @@ namespace ComputerVision
             this.buttonRoberts.UseVisualStyleBackColor = true;
             this.buttonRoberts.Click += new System.EventHandler(this.buttonRoberts_Click);
             // 
+            // buttonPrewitt
+            // 
+            this.buttonPrewitt.Location = new System.Drawing.Point(207, 39);
+            this.buttonPrewitt.Name = "buttonPrewitt";
+            this.buttonPrewitt.Size = new System.Drawing.Size(75, 23);
+            this.buttonPrewitt.TabIndex = 25;
+            this.buttonPrewitt.Text = "Prewitt";
+            this.buttonPrewitt.UseVisualStyleBackColor = true;
+            this.buttonPrewitt.Click += new System.EventHandler(this.buttonPrewitt_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -307,6 +319,7 @@ namespace ComputerVision
         private System.Windows.Forms.Button buttonKirsch;
         private System.Windows.Forms.Button buttonLaplace;
         private System.Windows.Forms.Button buttonRoberts;
+        private System.Windows.Forms.Button buttonPrewitt;
     }
 }
 

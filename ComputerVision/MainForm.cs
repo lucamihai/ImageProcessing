@@ -171,5 +171,12 @@ namespace ComputerVision
 
             UpdateWorkImage();
         }
+
+        private void buttonPrewitt_Click(object sender, EventArgs e)
+        {
+            Methods.Prewitt(workImage, initialWorkImage);
+
+            UpdateWorkImage();
+        }
     }
 }
