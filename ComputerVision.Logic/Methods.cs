@@ -552,6 +552,49 @@ namespace ComputerVision.Logic
             originalFastImage.Unlock();
         }
 
+        public static void Sobel(FastImage fastImage, FastImage originalFastImage)
+        {
+            var P = new[,]
+            {
+                {-1, -2, -1},
+                {0, 0, 0},
+                {1, 2, 1}
+            };
+
+            var Q = new[,]
+            {
+                {-1, 0, 1},
+                {-2, 0, 2},
+                {-1, 0, 1}
+            };
+
+            fastImage.Lock();
+            originalFastImage.Lock();
+
+            for (int row = 1; row < originalFastImage.Width - 2; row++)
+            {
+                for (int column = 1; column < originalFastImage.Height - 2; column++)
+                {
+                    GetConvolutionSums(originalFastImage, row, column, P, out var sumRedP, out var sumGreenP, out var sumBlueP);
+                    GetConvolutionSums(originalFastImage, row, column, Q, out var sumRedQ, out var sumGreenQ, out var sumBlueQ);
+
+                    var maxRed = (int)Math.Sqrt(Math.Pow(sumRedP, 2) + Math.Pow(sumRedQ, 2));
+                    var maxGreen = (int)Math.Sqrt(Math.Pow(sumGreenP, 2) + Math.Pow(sumGreenQ, 2));
+                    var maxBlue = (int)Math.Sqrt(Math.Pow(sumBlueP, 2) + Math.Pow(sumBlueQ, 2));
+
+                    maxRed = Normalizare(maxRed, 0, 255);
+                    maxGreen = Normalizare(maxGreen, 0, 255);
+                    maxBlue = Normalizare(maxBlue, 0, 255);
+
+                    var newColor = Color.FromArgb(maxRed, maxGreen, maxBlue);
+                    fastImage.SetPixel(row, column, newColor);
+                }
+            }
+
+            fastImage.Unlock();
+            originalFastImage.Unlock();
+        }
+
         private static void GetConvolutionSums(FastImage fastImage, int x, int y, int[,] matrix, out int sumRed, out int sumGreen, out int sumBlue)
         {
             sumRed = 0;

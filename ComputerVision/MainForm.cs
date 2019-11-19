@@ -178,5 +178,12 @@ namespace ComputerVision
 
             UpdateWorkImage();
         }
+
+        private void buttonSobel_Click(object sender, EventArgs e)
+        {
+            Methods.Sobel(workImage, initialWorkImage);
+
+            UpdateWorkImage();
+        }
     }
 }

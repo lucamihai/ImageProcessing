@@ -49,6 +49,7 @@ namespace ComputerVision
             this.buttonLaplace = new System.Windows.Forms.Button();
             this.buttonRoberts = new System.Windows.Forms.Button();
             this.buttonPrewitt = new System.Windows.Forms.Button();
+            this.buttonSobel = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarDelta)).BeginInit();
@@ -88,6 +89,7 @@ namespace ComputerVision
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.buttonSobel);
             this.panel1.Controls.Add(this.buttonPrewitt);
             this.panel1.Controls.Add(this.buttonRoberts);
             this.panel1.Controls.Add(this.buttonLaplace);
@@ -273,6 +275,16 @@ namespace ComputerVision
             this.buttonPrewitt.UseVisualStyleBackColor = true;
             this.buttonPrewitt.Click += new System.EventHandler(this.buttonPrewitt_Click);
             // 
+            // buttonSobel
+            // 
+            this.buttonSobel.Location = new System.Drawing.Point(109, 97);
+            this.buttonSobel.Name = "buttonSobel";
+            this.buttonSobel.Size = new System.Drawing.Size(75, 23);
+            this.buttonSobel.TabIndex = 26;
+            this.buttonSobel.Text = "Sobel";
+            this.buttonSobel.UseVisualStyleBackColor = true;
+            this.buttonSobel.Click += new System.EventHandler(this.buttonSobel_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -320,6 +332,7 @@ namespace ComputerVision
         private System.Windows.Forms.Button buttonLaplace;
         private System.Windows.Forms.Button buttonRoberts;
         private System.Windows.Forms.Button buttonPrewitt;
+        private System.Windows.Forms.Button buttonSobel;
     }
 }
 
