@@ -185,5 +185,12 @@ namespace ComputerVision
 
             UpdateWorkImage();
         }
+
+        private void buttonFreiChen_Click(object sender, EventArgs e)
+        {
+            Methods.FreiChen(workImage, initialWorkImage);
+
+            UpdateWorkImage();
+        }
     }
 }

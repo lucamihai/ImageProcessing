@@ -32,6 +32,11 @@ namespace ComputerVision
             this.panelDestination = new System.Windows.Forms.Panel();
             this.buttonLoad = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonSobel = new System.Windows.Forms.Button();
+            this.buttonPrewitt = new System.Windows.Forms.Button();
+            this.buttonRoberts = new System.Windows.Forms.Button();
+            this.buttonLaplace = new System.Windows.Forms.Button();
+            this.buttonKirsch = new System.Windows.Forms.Button();
             this.buttonUnsharp = new System.Windows.Forms.Button();
             this.buttonHighPass = new System.Windows.Forms.Button();
             this.buttonMarkov = new System.Windows.Forms.Button();
@@ -45,11 +50,7 @@ namespace ComputerVision
             this.trackBarDelta = new System.Windows.Forms.TrackBar();
             this.trackBarIntensity = new System.Windows.Forms.TrackBar();
             this.buttonResetSecondImage = new System.Windows.Forms.Button();
-            this.buttonKirsch = new System.Windows.Forms.Button();
-            this.buttonLaplace = new System.Windows.Forms.Button();
-            this.buttonRoberts = new System.Windows.Forms.Button();
-            this.buttonPrewitt = new System.Windows.Forms.Button();
-            this.buttonSobel = new System.Windows.Forms.Button();
+            this.buttonFreiChen = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarDelta)).BeginInit();
@@ -89,6 +90,7 @@ namespace ComputerVision
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.buttonFreiChen);
             this.panel1.Controls.Add(this.buttonSobel);
             this.panel1.Controls.Add(this.buttonPrewitt);
             this.panel1.Controls.Add(this.buttonRoberts);
@@ -107,6 +109,56 @@ namespace ComputerVision
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(320, 190);
             this.panel1.TabIndex = 3;
+            // 
+            // buttonSobel
+            // 
+            this.buttonSobel.Location = new System.Drawing.Point(109, 97);
+            this.buttonSobel.Name = "buttonSobel";
+            this.buttonSobel.Size = new System.Drawing.Size(75, 23);
+            this.buttonSobel.TabIndex = 26;
+            this.buttonSobel.Text = "Sobel";
+            this.buttonSobel.UseVisualStyleBackColor = true;
+            this.buttonSobel.Click += new System.EventHandler(this.buttonSobel_Click);
+            // 
+            // buttonPrewitt
+            // 
+            this.buttonPrewitt.Location = new System.Drawing.Point(207, 39);
+            this.buttonPrewitt.Name = "buttonPrewitt";
+            this.buttonPrewitt.Size = new System.Drawing.Size(75, 23);
+            this.buttonPrewitt.TabIndex = 25;
+            this.buttonPrewitt.Text = "Prewitt";
+            this.buttonPrewitt.UseVisualStyleBackColor = true;
+            this.buttonPrewitt.Click += new System.EventHandler(this.buttonPrewitt_Click);
+            // 
+            // buttonRoberts
+            // 
+            this.buttonRoberts.Location = new System.Drawing.Point(207, 10);
+            this.buttonRoberts.Name = "buttonRoberts";
+            this.buttonRoberts.Size = new System.Drawing.Size(75, 23);
+            this.buttonRoberts.TabIndex = 24;
+            this.buttonRoberts.Text = "Roberts";
+            this.buttonRoberts.UseVisualStyleBackColor = true;
+            this.buttonRoberts.Click += new System.EventHandler(this.buttonRoberts_Click);
+            // 
+            // buttonLaplace
+            // 
+            this.buttonLaplace.Location = new System.Drawing.Point(109, 36);
+            this.buttonLaplace.Name = "buttonLaplace";
+            this.buttonLaplace.Size = new System.Drawing.Size(75, 23);
+            this.buttonLaplace.TabIndex = 23;
+            this.buttonLaplace.Text = "Laplace";
+            this.buttonLaplace.UseVisualStyleBackColor = true;
+            this.buttonLaplace.Click += new System.EventHandler(this.buttonLaplace_Click);
+            // 
+            // buttonKirsch
+            // 
+            this.buttonKirsch.Location = new System.Drawing.Point(109, 10);
+            this.buttonKirsch.Name = "buttonKirsch";
+            this.buttonKirsch.Size = new System.Drawing.Size(75, 23);
+            this.buttonKirsch.TabIndex = 22;
+            this.buttonKirsch.Text = "Kirsch";
+            this.buttonKirsch.UseVisualStyleBackColor = true;
+            this.buttonKirsch.Click += new System.EventHandler(this.buttonKirsch_Click);
             // 
             // buttonUnsharp
             // 
@@ -235,55 +287,15 @@ namespace ComputerVision
             this.buttonResetSecondImage.UseVisualStyleBackColor = true;
             this.buttonResetSecondImage.Click += new System.EventHandler(this.buttonResetSecondImage_Click);
             // 
-            // buttonKirsch
+            // buttonFreiChen
             // 
-            this.buttonKirsch.Location = new System.Drawing.Point(109, 10);
-            this.buttonKirsch.Name = "buttonKirsch";
-            this.buttonKirsch.Size = new System.Drawing.Size(75, 23);
-            this.buttonKirsch.TabIndex = 22;
-            this.buttonKirsch.Text = "Kirsch";
-            this.buttonKirsch.UseVisualStyleBackColor = true;
-            this.buttonKirsch.Click += new System.EventHandler(this.buttonKirsch_Click);
-            // 
-            // buttonLaplace
-            // 
-            this.buttonLaplace.Location = new System.Drawing.Point(109, 36);
-            this.buttonLaplace.Name = "buttonLaplace";
-            this.buttonLaplace.Size = new System.Drawing.Size(75, 23);
-            this.buttonLaplace.TabIndex = 23;
-            this.buttonLaplace.Text = "Laplace";
-            this.buttonLaplace.UseVisualStyleBackColor = true;
-            this.buttonLaplace.Click += new System.EventHandler(this.buttonLaplace_Click);
-            // 
-            // buttonRoberts
-            // 
-            this.buttonRoberts.Location = new System.Drawing.Point(207, 10);
-            this.buttonRoberts.Name = "buttonRoberts";
-            this.buttonRoberts.Size = new System.Drawing.Size(75, 23);
-            this.buttonRoberts.TabIndex = 24;
-            this.buttonRoberts.Text = "Roberts";
-            this.buttonRoberts.UseVisualStyleBackColor = true;
-            this.buttonRoberts.Click += new System.EventHandler(this.buttonRoberts_Click);
-            // 
-            // buttonPrewitt
-            // 
-            this.buttonPrewitt.Location = new System.Drawing.Point(207, 39);
-            this.buttonPrewitt.Name = "buttonPrewitt";
-            this.buttonPrewitt.Size = new System.Drawing.Size(75, 23);
-            this.buttonPrewitt.TabIndex = 25;
-            this.buttonPrewitt.Text = "Prewitt";
-            this.buttonPrewitt.UseVisualStyleBackColor = true;
-            this.buttonPrewitt.Click += new System.EventHandler(this.buttonPrewitt_Click);
-            // 
-            // buttonSobel
-            // 
-            this.buttonSobel.Location = new System.Drawing.Point(109, 97);
-            this.buttonSobel.Name = "buttonSobel";
-            this.buttonSobel.Size = new System.Drawing.Size(75, 23);
-            this.buttonSobel.TabIndex = 26;
-            this.buttonSobel.Text = "Sobel";
-            this.buttonSobel.UseVisualStyleBackColor = true;
-            this.buttonSobel.Click += new System.EventHandler(this.buttonSobel_Click);
+            this.buttonFreiChen.Location = new System.Drawing.Point(109, 126);
+            this.buttonFreiChen.Name = "buttonFreiChen";
+            this.buttonFreiChen.Size = new System.Drawing.Size(75, 23);
+            this.buttonFreiChen.TabIndex = 27;
+            this.buttonFreiChen.Text = "Frei Chen";
+            this.buttonFreiChen.UseVisualStyleBackColor = true;
+            this.buttonFreiChen.Click += new System.EventHandler(this.buttonFreiChen_Click);
             // 
             // MainForm
             // 
@@ -333,6 +345,7 @@ namespace ComputerVision
         private System.Windows.Forms.Button buttonRoberts;
         private System.Windows.Forms.Button buttonPrewitt;
         private System.Windows.Forms.Button buttonSobel;
+        private System.Windows.Forms.Button buttonFreiChen;
     }
 }
 

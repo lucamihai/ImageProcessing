@@ -398,9 +398,9 @@ namespace ComputerVision.Logic
                     GetConvolutionSums(originalFastImage, row, column, H3, out var sumRedH3, out var sumGreenH3, out var sumBlueH3);
                     GetConvolutionSums(originalFastImage, row, column, H4, out var sumRedH4, out var sumGreenH4, out var sumBlueH4);
 
-                    var sumsRed = new List<int> {sumRedH1, sumRedH2, sumRedH3, sumRedH4};
-                    var sumsGreen = new List<int> {sumGreenH1, sumGreenH2, sumGreenH3, sumGreenH4};
-                    var sumsBlue = new List<int> {sumBlueH1, sumBlueH2, sumBlueH3, sumBlueH4};
+                    var sumsRed = new List<int> { sumRedH1, sumRedH2, sumRedH3, sumRedH4 };
+                    var sumsGreen = new List<int> { sumGreenH1, sumGreenH2, sumGreenH3, sumGreenH4 };
+                    var sumsBlue = new List<int> { sumBlueH1, sumBlueH2, sumBlueH3, sumBlueH4 };
 
                     var maxRed = sumsRed.Max();
                     var maxGreen = sumsGreen.Max();
@@ -595,6 +595,105 @@ namespace ComputerVision.Logic
             originalFastImage.Unlock();
         }
 
+        public static void FreiChen(FastImage fastImage, FastImage originalFastImage)
+        {
+            var matrixes = new List<double[,]>();
+            var radical2 = Math.Sqrt(2);
+
+            //F1
+            matrixes.Add(new double[,]
+            {
+                {1, radical2, 1 },
+                {0, 0, 0 },
+                {-1, -radical2, -1 }
+            });
+
+            // F2
+            matrixes.Add(new double[,]
+            {
+                {1, 0, -1 },
+                {radical2, 0, -radical2 },
+                {1, 0, -1 }
+            });
+
+            // F3
+            matrixes.Add(new double[,]
+            {
+                {0, -1, radical2 },
+                {1, 0, -1 },
+                {-radical2, 1, 0 }
+            });
+
+            // F4
+            matrixes.Add(new double[,]
+            {
+                {radical2, -1, 0 },
+                {-1, 0, 1 },
+                {0, 1, -radical2 }
+            });
+
+            // F5
+            matrixes.Add(new double[,]
+            {
+                {0, 1, 0 },
+                {-1, 0, -1 },
+                {0, 1, 0 }
+            });
+
+            // F6
+            matrixes.Add(new double[,]
+            {
+                {-1, 0, 1 },
+                {0, 0, 0 },
+                {1, 0, -1 }
+            });
+
+            // F7
+            matrixes.Add(new double[,]
+            {
+                {1, -2, 1 },
+                {-2, 4, -2 },
+                {1, -2, 1 }
+            });
+
+            // F8
+            matrixes.Add(new double[,]
+            {
+                {-2, 1, -2 },
+                {1, 4, 1 },
+                {-2, 1, -2 }
+            });
+
+            // F9
+            matrixes.Add(new double[,]
+            {
+                {1d/9, 1d/9, 1d/9 },
+                {1d/9, 1d/9, 1d/9 },
+                {1d/9, 1d/9, 1d/9}
+            });
+
+            fastImage.Lock();
+            originalFastImage.Lock();
+
+            for (int row = 1; row < originalFastImage.Width - 2; row++)
+            {
+                for (int column = 1; column < originalFastImage.Height - 2; column++)
+                {
+                    GetConvolutionSumsForFreiChen(originalFastImage, row, column, matrixes, out var sumRed, out var sumGreen, out var sumBlue);
+
+                    sumRed = Normalizare(sumRed, 0, 255);
+                    sumGreen = Normalizare(sumGreen, 0, 255);
+                    sumBlue = Normalizare(sumBlue, 0, 255);
+
+                    var newColor = Color.FromArgb(sumRed, sumGreen, sumBlue);
+                    fastImage.SetPixel(row, column, newColor);
+                }
+            }
+
+            fastImage.Unlock();
+            originalFastImage.Unlock();
+        }
+
         private static void GetConvolutionSums(FastImage fastImage, int x, int y, int[,] matrix, out int sumRed, out int sumGreen, out int sumBlue)
         {
             sumRed = 0;
@@ -631,6 +730,42 @@ namespace ComputerVision.Logic
             }
         }
 
+        private static void GetConvolutionSumsForFreiChen(FastImage fastImage, int x, int y, List<double[,]> matrixes, out int sumRed, out int sumGreen, out int sumBlue)
+        {
+            var firstSumR = 0d;
+            var firstSumG = 0d;
+            var firstSumB = 0d;
+            var secondSumR = 0d;
+            var secondSumG = 0d;
+            var secondSumB = 0d;
+
+            for (var index = 0; index < matrixes.Count; index++)
+            {
+                var matrix = matrixes[index];
+
+                for (int i = x; i <= x + 1; i++)
+                {
+                    for (int j = y; j <= y + 1; j++)
+                    {
+                        var pixel = fastImage.GetPixel(i, j);
+                        secondSumR += Math.Pow(pixel.R * matrix[i - x, j - y], 2);
+                        secondSumG += Math.Pow(pixel.G * matrix[i - x, j - y], 2);
+                        secondSumB += Math.Pow(pixel.B * matrix[i - x, j - y], 2);
+
+                        if (index < 4)
+                        {
+                            firstSumR += Math.Pow(pixel.R * matrix[i - x, j - y], 2);
+                            firstSumG += Math.Pow(pixel.G * matrix[i - x, j - y], 2);
+                            firstSumB += Math.Pow(pixel.B * matrix[i - x, j - y], 2);
+                        }
+                    }
+                }
+            }
+
+            sumRed = (int)(Math.Sqrt(firstSumR / secondSumR) * 255);
+            sumGreen = (int)(Math.Sqrt(firstSumG / secondSumG) * 255);
+            sumBlue = (int)(Math.Sqrt(firstSumB / secondSumB) * 255);
+        }
 
         private static int Normalizare(int value, int min, int max)
         {
